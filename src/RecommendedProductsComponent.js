@@ -269,7 +269,7 @@ class RecommendedProductsComponent extends Component {
                         "image": item.image,
                         "sku": item.sku,
                         "price": item.price,
-                        "selected": (item.sku === key) ? item.selected = true : item.selected,
+                        "selected": (item.sku === key) ? true : item.selected,
                         "initial_product": item.initial_product || null
                     }
                 })
@@ -282,7 +282,7 @@ class RecommendedProductsComponent extends Component {
                         "image": item.image,
                         "sku": item.sku,
                         "price": item.price,
-                        "selected": (item.sku === key) ? item.selected = false : item.selected,
+                        "selected": (item.sku === key) ? false : item.selected,
                         "initial_product": item.initial_product || null
                     }
                 })
