@@ -118,7 +118,9 @@ const Details = styled.section`
 `;
 
 const Product = styled.p`
+    font-size: 14px;
     text-align: left;
+    font-weight: bold;
 `;
 
 const Selected = styled.span`
@@ -127,7 +129,7 @@ const Selected = styled.span`
     border-radius: 2px;
     padding: 3px 4px;
     margin-right: 5px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.7;
 `;
 
@@ -137,7 +139,8 @@ const Wrapper = styled.div`
     width: 100%;
 
     .total {
-        font-size: 16px;
+        font-weight: bold;
+        font-size: 14px;
     }
 `;
 
@@ -145,7 +148,7 @@ const Price = styled.span`
     color: ${red};
     padding: 0 5px;
     width: 50%;
-    font-size: 14px;
+    font-size: 12px;
 `;
 
 const Submit = styled.button`
@@ -193,9 +196,9 @@ class RecommendedProductsComponent extends Component {
                     <Details>
                         {products.map((product, key)=> {
                             if (product.initial_product) {
-                                return <Product key={key}><Selected>This Item</Selected>{product.name}<Price>${product.price}</Price></Product>
+                                return <Product className={'item' + product.sku}  key={key}><Selected>This Item</Selected>{product.name}<Price>${product.price}</Price></Product>
                             }
-                            return <Product key={key}><input type="checkbox" onChange={(e) => this.getSelection(product.sku, e)} defaultChecked />{product.name}<Price>${product.price}</Price></Product>;
+                            return <Product className={'item' + product.sku}  key={key}><input type="checkbox" onChange={(e) => this.getSelection(product.sku, e)} defaultChecked />{product.name}<Price>${product.price}</Price></Product>;
                         })}
                         <Wrapper>
                             <Price className="total">${this.getTotal()}</Price><Submit onClick={(e) => this.addToCart(e, addToCartCallback)}>Add To Cart</Submit>
@@ -214,7 +217,9 @@ class RecommendedProductsComponent extends Component {
         // handle checkbox change event
         if(e.target.checked) {
             // add style
-            document.getElementsByClassName()
+            let text = document.getElementsByClassName('item' + key)[0];
+            text.style.color = red;
+            text.children[1].style.color = '#000';
             document.getElementsByClassName('image' + key)[0].style.filter = 'opacity(1)';
             // update selected state
             this.setState({
@@ -231,6 +236,9 @@ class RecommendedProductsComponent extends Component {
             })
         } else {
             // add style
+            let text = document.getElementsByClassName('item' + key)[0];
+            text.style.color = lightGray;
+            text.children[1].style.color = lightGray;
             document.getElementsByClassName('image' + key)[0].style.filter = 'opacity(0.5)';
             // update selected state
             this.setState({
