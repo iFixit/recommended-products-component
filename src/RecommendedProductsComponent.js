@@ -90,6 +90,7 @@ const Image = styled.div`
 
     img {
         width: 100%;
+        transition: all ease 0.5s;
     }
 `;
 
@@ -199,7 +200,6 @@ class RecommendedProductsComponent extends Component {
                 })
             })
         } else {
-            console.log(key);
             // add style
             document.getElementsByClassName('image' + key)[0].style.filter = 'opacity(0.5)';
             // update selected state
