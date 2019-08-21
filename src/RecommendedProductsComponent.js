@@ -127,9 +127,16 @@ const Selected = styled.span`
     margin-right: 5px;
 `;
 
+const Wrapper = styled.div`
+    position: relative;
+    display: flex;
+    width: 100%;
+`;
+
 const Price = styled.span`
     color: ${red};
     padding: 0 5px;
+    width: 50%;
 `;
 
 const Submit = styled.button`
@@ -173,7 +180,9 @@ class RecommendedProductsComponent extends Component {
                             }
                             return <Product key={key}><input type="checkbox" onChange={(e) => this.getSelection(product.sku, e)} defaultChecked />{product.name}<Price>${product.price}</Price></Product>;
                         })}
-                        <Price>${this.getTotal()}</Price><Submit onClick={this.addToCart}>Add To Cart</Submit>
+                        <Wrapper>
+                            <Price>${this.getTotal()}</Price><Submit onClick={this.addToCart}>Add To Cart</Submit>
+                        </Wrapper>
                     </Details>
                 </Container>
             </RecommendedProducts>
