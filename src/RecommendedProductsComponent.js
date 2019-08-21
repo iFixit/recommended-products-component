@@ -41,7 +41,7 @@ const Header = styled.header`
 
     &:before,
     &:after {
-        content: '\a0';
+        content: '';
         position: absolute;
         top: 51%;
         overflow: hidden;
@@ -166,25 +166,25 @@ const Selected = styled.span`
     line-height: 1.7;
 `;
 
+const Price = styled.span`
+    color: ${color.redDark1};
+    padding: 0 5px;
+    font-size: 14px;
+`;
+
 const Wrapper = styled.div`
     position: relative;
     display: flex;
     width: 100%;
     padding: 10px 0;
 
-    .total {
+    ${Price} {
         font-weight: bold;
         font-size: 24px;
-        width: 25%;
+        width: 35%;
         display: flex;
         align-items: center;
     }
-`;
-
-const Price = styled.span`
-    color: ${color.redDark1};
-    padding: 0 5px;
-    font-size: 14px;
 `;
 
 const Submit = styled.button`
