@@ -18,6 +18,7 @@ const blue = '#1875f1';
 /* styled page elements */
 const RecommendedProducts = styled.section`
     padding: 20px 0;
+    margin: 0 auto;
     max-width: 1024px;
 
     ${bp1} {
@@ -75,7 +76,7 @@ const Grid = styled.div`
     margin: 0 10px;
 
     ${bp1} {
-        width: 65%;
+        width: 55%;
         margin: 10px 0;
     }
 `;
@@ -107,9 +108,10 @@ const Plus = styled.span`
 
 const Details = styled.section`
     padding: 20px;
+    line-height: 1.5;
 
     ${bp1} {
-        width: 35%;
+        width: 45%;
         padding: 0 10px;
         margin: 10px 0;
     }
@@ -123,20 +125,27 @@ const Selected = styled.span`
     background: ${lightGray};
     color: ${gray};
     border-radius: 2px;
-    padding: 0 5px;
+    padding: 3px 4px;
     margin-right: 5px;
+    font-size: 14px;
+    line-height: 1.7;
 `;
 
 const Wrapper = styled.div`
     position: relative;
     display: flex;
     width: 100%;
+
+    .total {
+        font-size: 16px;
+    }
 `;
 
 const Price = styled.span`
     color: ${red};
     padding: 0 5px;
     width: 50%;
+    font-size: 14px;
 `;
 
 const Submit = styled.button`
@@ -149,15 +158,23 @@ const Submit = styled.button`
 class RecommendedProductsComponent extends Component {
     constructor(props) {
         super(props);
+        // state variables
         this.state = {
             selected: products.map((product) => {
                 return {
+                    "name": product.name,
+                    "image": product.image,
                     "sku": product.sku,
                     "price": product.price,
+                    "initial_product": product.initial_product || null,
                     "selected": product.selected
                 }
             })
         }
+        // data binding
+        this.getSelection = this.getSelection.bind(this);
+        this.getTotal = this.getTotal.bind(this);
+        this.addToCart = this.addToCart.bind(this);
     }
 
     render() {
@@ -181,7 +198,7 @@ class RecommendedProductsComponent extends Component {
                             return <Product key={key}><input type="checkbox" onChange={(e) => this.getSelection(product.sku, e)} defaultChecked />{product.name}<Price>${product.price}</Price></Product>;
                         })}
                         <Wrapper>
-                            <Price>${this.getTotal()}</Price><Submit onClick={this.addToCart}>Add To Cart</Submit>
+                            <Price className="total">${this.getTotal()}</Price><Submit onClick={(e) => this.addToCart(e, addToCartCallback)}>Add To Cart</Submit>
                         </Wrapper>
                     </Details>
                 </Container>
@@ -197,14 +214,18 @@ class RecommendedProductsComponent extends Component {
         // handle checkbox change event
         if(e.target.checked) {
             // add style
+            document.getElementsByClassName()
             document.getElementsByClassName('image' + key)[0].style.filter = 'opacity(1)';
             // update selected state
             this.setState({
                 selected: this.state.selected.map((item) => {
                     return {
+                        "name": item.name,
+                        "image": item.image,
                         "sku": item.sku,
                         "price": item.price,
-                        "selected": (item.sku === key) ? item.selected = true : item.selected
+                        "selected": (item.sku === key) ? item.selected = true : item.selected,
+                        "initial_product": item.initial_product || null
                     }
                 })
             })
@@ -215,18 +236,29 @@ class RecommendedProductsComponent extends Component {
             this.setState({
                 selected: this.state.selected.map((item) => {
                     return {
+                        "name": item.name,
+                        "image": item.image,
                         "sku": item.sku,
                         "price": item.price,
-                        "selected": (item.sku === key) ? item.selected = false : item.selected
+                        "selected": (item.sku === key) ? item.selected = false : item.selected,
+                        "initial_product": item.initial_product || null
                     }
                 })
             })
         }
     }
 
-    addToCart() {
+    addToCart(e, addToCartCallback) {
         // handle submit
+        let itemsToAdd = this.state.selected.filter(item => !item.initial_product);
+        addToCartCallback(itemsToAdd);
     }
+}
+
+function addToCartCallback(items) {
+    console.log("callback provided by parent app");
+    console.log("The items to be added: ");
+    console.log(items);
 }
 
 export default RecommendedProductsComponent;
