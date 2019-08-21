@@ -3,24 +3,32 @@
     "products": [
         {
             "name": "Pro Tech Toolkit",
-            "image": "https://placehold.it/500x500",
+            "image": "https://placehold.it/150x150",
             "price": "59.99",
+            "sku": 5,
+            "initial_product": true,
             "selected": true
         },
         {
             "name": "Magnetic Project Mat",
-            "image": "https://placehold.it/500x500",
-            "price": "19.99"
+            "image": "https://placehold.it/150x150",
+            "price": "19.99",
+            "sku": 4,
+            "selected": true
         },
         {
             "name": "Mahi Driver Kit - 48bit Driver Kit",
-            "image": "https://placehold.it/500x500",
-            "price": "29.99"
+            "image": "https://placehold.it/150x150",
+            "price": "29.99",
+            "sku": 3,
+            "selected": true
         },
         {
             "name": "Magnetic Project Mat",
-            "image": "https://placehold.it/500x500",
-            "price": "19.99"
+            "image": "https://placehold.it/150x150",
+            "price": "19.99",
+            "sku": 6,
+            "selected": true
         }
     ]
 }
