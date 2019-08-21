@@ -74,38 +74,39 @@ const Grid = styled.div`
         width: 55%;
         margin: 10px 0;
     }
-
-    .initial {
-        &:before {
-            ${bp1} {
-                content: 'This Item';
-                position: absolute;
-                top: 0;
-                right: 0;
-                background: ${color.gray1};
-                color: ${color.gray6};
-                border-radius: 4px;
-                font-size: 14px;
-                font-weight: bold;
-                padding: 3px 4px;
-                margin: 15%;
-            }
-        }
-    }
 `;
 
-const Image = styled.div`
+const Block = styled.div`
     position: relative;
     width: calc(33.33% - 20px);
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+`;
 
-    img {
-        width: 100%;
-        transition: all ease 0.5s;
+const InitialBlock = styled(Block)`
+    &:before {
+        ${bp1} {
+            content: 'This Item';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: ${color.gray1};
+            color: ${color.gray6};
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 3px 4px;
+            margin: 15%;
+        }
     }
+`;
+
+const Image = styled.img`
+    width: 100%;
+    transition: all ease 0.5s;
+    filter: ${props => props.isSelected ? 'opacity(1)' : 'opacity(0.5)'};
 `;
 
 const Plus = styled.span`
@@ -144,7 +145,7 @@ const Checkbox = styled.input`
 `;
 
 const Product = styled.label`
-    color: ${color.gray8};
+    color: ${props => props.isSelected ? color.gray8 : color.gray5};
     font-size: 16px;
     text-align: left;
     font-weight: bold;
@@ -163,7 +164,7 @@ const Selected = styled.span`
 `;
 
 const Price = styled.span`
-    color: ${color.redDark1};
+    color: ${props => props.isSelected ? color.redDark1 : color.gray5};
     padding: 0 5px;
     font-size: 14px;
 `;
@@ -221,19 +222,29 @@ class RecommendedProductsComponent extends Component {
                 <Header>{header}</Header>
                 <Container>
                     <Grid>
-                        {products.map((product, key)=> {
-                            if(key < products.length - 1) {
-                                return <Image className={product.initial_product ? 'initial' : null} key={key}><img className={'image' + product.sku} src={product.image} alt={product.title} /><Plus></Plus></Image>
+                        {this.state.selected.map((product, key)=> {
+                            if(product.initial_product) {
+                                return (
+                                    <InitialBlock key={key}>
+                                        <Image isSelected={product.selected} src={product.image} alt={product.title} />
+                                        {key < products.length - 1 ? (<Plus />) : null}
+                                    </InitialBlock>
+                                )
                             }
-                            return <Image className={product.initial_product ? 'initial' : null} key={key}><img className={'image' + product.sku} src={product.image} alt={product.title} /></Image>
+                            return (
+                                <Block key={key}>
+                                    <Image isSelected={product.selected} src={product.image} alt={product.title} />
+                                    {key < products.length - 1 ? (<Plus />) : null}
+                                </Block>
+                            )
                         })}
                     </Grid>
                     <Details>
-                        {products.map((product, key)=> {
+                        {this.state.selected.map((product, key)=> {
                             if (product.initial_product) {
-                                return <Product className={'item' + product.sku}  key={key}><Selected>This Item</Selected>{product.name}<Price>${product.price}</Price></Product>
+                                return <Product isSelected={product.selected} key={key}><Selected>This Item</Selected>{product.name}<Price isSelected={product.selected}>${product.price}</Price></Product>
                             }
-                            return <Product className={'item' + product.sku}  key={key}><Checkbox type="checkbox" onChange={(e) => this.getSelection(product.sku, e)} defaultChecked />{product.name}<Price>${product.price}</Price></Product>;
+                            return <Product isSelected={product.selected} key={key}><Checkbox type="checkbox" onChange={(e) => this.getSelection(product.sku, e)} defaultChecked />{product.name}<Price isSelected={product.selected}>${product.price}</Price></Product>;
                         })}
                         <Wrapper>
                             <Price className="total">${this.getTotal()}</Price><Submit onClick={(e) => this.addToCart(e, addToCartCallback)}>Add To Cart</Submit>
@@ -251,12 +262,6 @@ class RecommendedProductsComponent extends Component {
     getSelection(key, e) {
         // handle checkbox change event
         if(e.target.checked) {
-            // add style
-            let text = document.getElementsByClassName('item' + key)[0];
-            text.style.color = color.gray8;
-            text.children[1].style.color = color.redDark1;
-            document.getElementsByClassName('image' + key)[0].style.filter = 'opacity(1)';
-            // update selected state
             this.setState({
                 selected: this.state.selected.map((item) => {
                     return {
@@ -270,12 +275,6 @@ class RecommendedProductsComponent extends Component {
                 })
             })
         } else {
-            // add style
-            let text = document.getElementsByClassName('item' + key)[0];
-            text.style.color = color.gray5;
-            text.children[1].style.color = color.gray5;
-            document.getElementsByClassName('image' + key)[0].style.filter = 'opacity(0.5)';
-            // update selected state
             this.setState({
                 selected: this.state.selected.map((item) => {
                     return {
