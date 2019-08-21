@@ -44,27 +44,23 @@ const Header = styled.header`
         content: '';
         position: absolute;
         top: 51%;
-        overflow: hidden;
         width: 50%;
         height: 1px;
+        overflow: hidden;
         background-color: ${color.gray3};
-        opacity: 0;
+        visibility: hidden;
 
         ${bp1} {
-            opacity: 1;
+            visibility: visible;
         }
     }
 
     &:before {
-        /* margin for line around test 2% */
         margin-left: -52%;
-        text-align: right;
     }
 
     &:after {
-        /* margin for line around test 2% */
         margin-left: 2%;
-        text-align: left;
     }
 `;
 
@@ -137,18 +133,18 @@ const Details = styled.section`
         padding: 0 10px;
         margin: 10px 0;
     }
+`;
 
-    input {
-        margin-right: 5px;
+const Checkbox = styled.input`
+    margin-right: 5px;
 
-        ${bp1} {
-            transform: translateY(-1px);
-        }
+    ${bp1} {
+        transform: translateY(-1px);
     }
 `;
 
 const Product = styled.label`
-    color: ${color.gray8}
+    color: ${color.gray8};
     font-size: 16px;
     text-align: left;
     font-weight: bold;
@@ -237,7 +233,7 @@ class RecommendedProductsComponent extends Component {
                             if (product.initial_product) {
                                 return <Product className={'item' + product.sku}  key={key}><Selected>This Item</Selected>{product.name}<Price>${product.price}</Price></Product>
                             }
-                            return <Product className={'item' + product.sku}  key={key}><input type="checkbox" onChange={(e) => this.getSelection(product.sku, e)} defaultChecked />{product.name}<Price>${product.price}</Price></Product>;
+                            return <Product className={'item' + product.sku}  key={key}><Checkbox type="checkbox" onChange={(e) => this.getSelection(product.sku, e)} defaultChecked />{product.name}<Price>${product.price}</Price></Product>;
                         })}
                         <Wrapper>
                             <Price className="total">${this.getTotal()}</Price><Submit onClick={(e) => this.addToCart(e, addToCartCallback)}>Add To Cart</Submit>
