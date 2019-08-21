@@ -119,13 +119,23 @@ const Details = styled.section`
         padding: 0 10px;
         margin: 10px 0;
     }
+
+    input {
+        margin-right: 5px;
+
+        ${bp1} {
+            transform: translateY(-1px);
+        }
+    }
 `;
 
-const Product = styled.p`
+const Product = styled.label`
     color: ${color.gray8}
     font-size: 16px;
     text-align: left;
     font-weight: bold;
+    line-height: 2;
+    display: inline-block;
 `;
 
 const Selected = styled.span`
@@ -142,27 +152,31 @@ const Wrapper = styled.div`
     position: relative;
     display: flex;
     width: 100%;
+    padding: 10px 0;
 
     .total {
         font-weight: bold;
         font-size: 16px;
+        width: 25%;
+        display: flex;
+        align-items: center;
     }
 `;
 
 const Price = styled.span`
     color: ${color.redDark1};
     padding: 0 5px;
-    width: 50%;
     font-size: 14px;
 `;
 
 const Submit = styled.button`
     background: ${color.blueDark1};
     color: white;
-    border: none;
+    font-size: 16px;
     padding: 10px 15px;
     font-weight: bold;
     border-radius: 5px;
+    border: none;
 `;
 
 class RecommendedProductsComponent extends Component {
