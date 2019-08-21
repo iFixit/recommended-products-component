@@ -90,6 +90,7 @@ const Grid = styled.div`
                 color: ${color.gray6};
                 border-radius: 4px;
                 font-size: 14px;
+                font-weight: bold;
                 padding: 3px 4px;
                 margin: 15%;
             }
@@ -173,7 +174,7 @@ const Wrapper = styled.div`
 
     .total {
         font-weight: bold;
-        font-size: 16px;
+        font-size: 24px;
         width: 25%;
         display: flex;
         align-items: center;
@@ -187,7 +188,7 @@ const Price = styled.span`
 `;
 
 const Submit = styled.button`
-    background: ${color.blueDark1};
+    background: ${color.blue};
     color: white;
     font-size: 16px;
     padding: 10px 15px;
