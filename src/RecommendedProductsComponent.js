@@ -6,8 +6,8 @@ import examples from './sample_data.json'
 const MAX_PRODUCTS = 3;
 
 /* sample data */
-let header = examples.header;
-let products = examples.products.slice(0, MAX_PRODUCTS); // enforce max products
+const header = examples.header;
+const products = examples.products.slice(0, MAX_PRODUCTS); // enforce max products
 
 /* style variables */
 const bp1 = '@media screen and (min-width: 650px)';
@@ -292,7 +292,7 @@ class RecommendedProductsComponent extends Component {
 
     addToCart(e, addToCartCallback) {
         // handle submit
-        let itemsToAdd = this.state.selected.filter(item => !item.initial_product && item.selected);
+        const itemsToAdd = this.state.selected.filter(item => !item.initial_product && item.selected);
         addToCartCallback(itemsToAdd);
     }
 }
