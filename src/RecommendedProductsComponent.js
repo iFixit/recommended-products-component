@@ -258,7 +258,7 @@ class RecommendedProductsComponent extends Component {
 
     addToCart(e, addToCartCallback) {
         // handle submit
-        let itemsToAdd = this.state.selected.filter(item => !item.initial_product);
+        let itemsToAdd = this.state.selected.filter(item => !item.initial_product && item.selected);
         addToCartCallback(itemsToAdd);
     }
 }
