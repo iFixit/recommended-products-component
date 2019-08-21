@@ -29,6 +29,7 @@ const Container = styled.section`
     padding: 20px;
 
     ${bp1} {
+        padding: 10px;
         display: flex;
     }
 `;
@@ -108,6 +109,7 @@ const Details = styled.section`
 
     ${bp1} {
         width: 35%;
+        padding: 0 10px;
         margin: 10px 0;
     }
 `;
@@ -158,9 +160,9 @@ class RecommendedProductsComponent extends Component {
                     <Grid>
                         {products.map((product, key)=> {
                             if(key < products.length - 1) {
-                                return <Image key={key}><img src={product.image} alt={product.title} /><Plus></Plus></Image>
+                                return <Image key={key}><img className={'image' + product.sku} src={product.image} alt={product.title} /><Plus></Plus></Image>
                             }
-                            return <Image key={key}><img src={product.image} alt={product.title} /></Image>
+                            return <Image key={key}><img className={'image' + product.sku} src={product.image} alt={product.title} /></Image>
                         })}
                     </Grid>
                     <Details>
@@ -184,6 +186,9 @@ class RecommendedProductsComponent extends Component {
     getSelection(key, e) {
         // handle checkbox change event
         if(e.target.checked) {
+            // add style
+            document.getElementsByClassName('image' + key)[0].style.filter = 'opacity(1)';
+            // update selected state
             this.setState({
                 selected: this.state.selected.map((item) => {
                     return {
@@ -194,6 +199,10 @@ class RecommendedProductsComponent extends Component {
                 })
             })
         } else {
+            console.log(key);
+            // add style
+            document.getElementsByClassName('image' + key)[0].style.filter = 'opacity(0.5)';
+            // update selected state
             this.setState({
                 selected: this.state.selected.map((item) => {
                     return {
