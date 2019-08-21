@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { color } from '@core-ds/primitives'
 import examples from './sample_data.json'
 
 const MAX_PRODUCTS = 3;
@@ -10,10 +11,6 @@ let products = examples.products.slice(0, MAX_PRODUCTS); // enforce max products
 
 /* style variables */
 const bp1 = '@media screen and (min-width: 650px)';
-const gray = '#717a7c';
-const lightGray = '#d2dadf';
-const red = '#da3b38';
-const blue = '#1875f1';
 
 /* styled page elements */
 const RecommendedProducts = styled.section`
@@ -36,6 +33,8 @@ const Container = styled.section`
 `;
 
 const Header = styled.header`
+    font-weight: bold;
+    color: ${color.gray8};
     position: relative;
     text-align: center;
     overflow: hidden;
@@ -48,7 +47,7 @@ const Header = styled.header`
         overflow: hidden;
         width: 50%;
         height: 1px;
-        background-color: ${lightGray};
+        background-color: ${color.gray3};
         opacity: 0;
 
         ${bp1} {
@@ -102,7 +101,12 @@ const Plus = styled.span`
 
     &:before {
         content: '+';
-        color: ${gray};
+        color: ${color.gray5};
+        font-size: 18px;
+    }
+
+    ${bp1} {
+        right: -3%;
     }
 `;
 
@@ -118,18 +122,19 @@ const Details = styled.section`
 `;
 
 const Product = styled.p`
-    font-size: 14px;
+    color: ${color.gray8}
+    font-size: 16px;
     text-align: left;
     font-weight: bold;
 `;
 
 const Selected = styled.span`
-    background: ${lightGray};
-    color: ${gray};
-    border-radius: 2px;
+    background: ${color.gray1};
+    color: ${color.gray6};
+    border-radius: 4px;
     padding: 3px 4px;
     margin-right: 5px;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.7;
 `;
 
@@ -140,21 +145,23 @@ const Wrapper = styled.div`
 
     .total {
         font-weight: bold;
-        font-size: 14px;
+        font-size: 16px;
     }
 `;
 
 const Price = styled.span`
-    color: ${red};
+    color: ${color.redDark1};
     padding: 0 5px;
     width: 50%;
-    font-size: 12px;
+    font-size: 14px;
 `;
 
 const Submit = styled.button`
-    background: ${blue};
+    background: ${color.blueDark1};
     color: white;
     border: none;
+    padding: 10px 15px;
+    font-weight: bold;
     border-radius: 5px;
 `;
 
@@ -218,8 +225,8 @@ class RecommendedProductsComponent extends Component {
         if(e.target.checked) {
             // add style
             let text = document.getElementsByClassName('item' + key)[0];
-            text.style.color = red;
-            text.children[1].style.color = '#000';
+            text.style.color = color.gray8;
+            text.children[1].style.color = color.redDark1;
             document.getElementsByClassName('image' + key)[0].style.filter = 'opacity(1)';
             // update selected state
             this.setState({
@@ -237,8 +244,8 @@ class RecommendedProductsComponent extends Component {
         } else {
             // add style
             let text = document.getElementsByClassName('item' + key)[0];
-            text.style.color = lightGray;
-            text.children[1].style.color = lightGray;
+            text.style.color = color.gray1;
+            text.children[1].style.color = color.gray1;
             document.getElementsByClassName('image' + key)[0].style.filter = 'opacity(0.5)';
             // update selected state
             this.setState({
