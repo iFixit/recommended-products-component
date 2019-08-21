@@ -78,6 +78,23 @@ const Grid = styled.div`
         width: 55%;
         margin: 10px 0;
     }
+
+    .initial {
+        &:before {
+            ${bp1} {
+                content: 'This Item';
+                position: absolute;
+                top: 0;
+                right: 0;
+                background: ${color.gray1};
+                color: ${color.gray6};
+                border-radius: 4px;
+                font-size: 14px;
+                padding: 3px 4px;
+                margin: 15%;
+            }
+        }
+    }
 `;
 
 const Image = styled.div`
@@ -209,9 +226,9 @@ class RecommendedProductsComponent extends Component {
                     <Grid>
                         {products.map((product, key)=> {
                             if(key < products.length - 1) {
-                                return <Image key={key}><img className={'image' + product.sku} src={product.image} alt={product.title} /><Plus></Plus></Image>
+                                return <Image className={product.initial_product ? 'initial' : null} key={key}><img className={'image' + product.sku} src={product.image} alt={product.title} /><Plus></Plus></Image>
                             }
-                            return <Image key={key}><img className={'image' + product.sku} src={product.image} alt={product.title} /></Image>
+                            return <Image className={product.initial_product ? 'initial' : null} key={key}><img className={'image' + product.sku} src={product.image} alt={product.title} /></Image>
                         })}
                     </Grid>
                     <Details>
@@ -258,8 +275,8 @@ class RecommendedProductsComponent extends Component {
         } else {
             // add style
             let text = document.getElementsByClassName('item' + key)[0];
-            text.style.color = color.gray1;
-            text.children[1].style.color = color.gray1;
+            text.style.color = color.gray5;
+            text.children[1].style.color = color.gray5;
             document.getElementsByClassName('image' + key)[0].style.filter = 'opacity(0.5)';
             // update selected state
             this.setState({
