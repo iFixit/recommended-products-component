@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { color } from '@core-ds/primitives'
-import examples from './sample_data.json'
-
-const MAX_PRODUCTS = 3;
-
-/* sample data */
-const header = examples.header;
-const products = examples.products.slice(0, MAX_PRODUCTS); // enforce max products
 
 /* style variables */
 const bp1 = '@media screen and (min-width: 650px)';
@@ -176,6 +169,7 @@ const Wrapper = styled.div`
     padding: 10px 0;
 
     ${Price} {
+        color: ${color.redDark1};
         font-weight: bold;
         font-size: 24px;
         width: 35%;
@@ -199,7 +193,7 @@ class RecommendedProductsComponent extends Component {
         super(props);
         // state variables
         this.state = {
-            selected: products.map((product) => {
+            selected: this.props.products.map((product) => {
                 return {
                     "name": product.name,
                     "image": product.image,
@@ -219,7 +213,7 @@ class RecommendedProductsComponent extends Component {
     render() {
         return (
             <RecommendedProducts className="recommended-products">
-                <Header>{header}</Header>
+                <Header>{this.props.header}</Header>
                 <Container>
                     <Grid>
                         {this.state.selected.map((product, key)=> {
@@ -227,14 +221,14 @@ class RecommendedProductsComponent extends Component {
                                 return (
                                     <InitialBlock key={key}>
                                         <Image isSelected={product.selected} src={product.image} alt={product.title} />
-                                        {key < products.length - 1 ? (<Plus />) : null}
+                                        {key < this.state.selected.length - 1 ? (<Plus />) : null}
                                     </InitialBlock>
                                 )
                             }
                             return (
                                 <Block key={key}>
                                     <Image isSelected={product.selected} src={product.image} alt={product.title} />
-                                    {key < products.length - 1 ? (<Plus />) : null}
+                                    {key < this.state.selected.length - 1 ? (<Plus />) : null}
                                 </Block>
                             )
                         })}

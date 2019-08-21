@@ -22,13 +22,6 @@
             "price": "29.99",
             "sku": 3,
             "selected": true
-        },
-        {
-            "name": "Magnetic Project Mat",
-            "image": "https://placehold.it/150x150",
-            "price": "19.99",
-            "sku": 6,
-            "selected": true
         }
     ]
 }
