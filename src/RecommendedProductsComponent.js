@@ -249,27 +249,25 @@ class RecommendedProductsComponent extends Component {
         // handle checkbox change event
         if(e.target.checked) {
             this.setState({
-                selected: this.state.related.map((item) => {
+                related: this.state.related.map((item) => {
                     return {
                         "name": item.name,
                         "image": item.image,
                         "sku": item.sku,
                         "price": item.price,
                         "selected": (item.sku === key) ? true : item.selected,
-                        "initial_product": item.initial_product || null
                     }
                 })
             })
         } else {
             this.setState({
-                selected: this.state.related.map((item) => {
+                related: this.state.related.map((item) => {
                     return {
                         "name": item.name,
                         "image": item.image,
                         "sku": item.sku,
                         "price": item.price,
                         "selected": (item.sku === key) ? false : item.selected,
-                        "initial_product": item.initial_product || null
                     }
                 })
             })
@@ -278,7 +276,7 @@ class RecommendedProductsComponent extends Component {
 
     addToCart(e, addToCartCallback) {
         // handle submit
-        const itemsToAdd = this.state.related.filter(item => !item.initial_product && item.selected);
+        const itemsToAdd = this.state.related.filter(item => item.selected);
         addToCartCallback(itemsToAdd);
     }
 }
