@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { color } from '@core-ds/primitives'
+import shuffle from 'lodash/shuffle';
+import take from 'lodash/take';
 
 /* style variables */
 const bp1 = '@media screen and (min-width: 650px)';
@@ -92,6 +94,7 @@ const InitialBlock = styled(Block)`
             font-weight: bold;
             padding: 3px 4px;
             margin: 15%;
+            z-index: 1;
         }
     }
 `;
@@ -192,17 +195,12 @@ class RecommendedProductsComponent extends Component {
     constructor(props) {
         super(props);
         // state variables
+        const related_products = this.props.related_products;
+        // get random products
+        let products = shuffle(related_products);;
+        products = take(products, 2);
         this.state = {
-            selected: this.props.products.map((product) => {
-                return {
-                    "name": product.name,
-                    "image": product.image,
-                    "sku": product.sku,
-                    "price": product.price,
-                    "initial_product": product.initial_product || null,
-                    "selected": product.selected
-                }
-            })
+            related: (products.length != null) ? products : related_products
         }
         // data binding
         this.getSelection = this.getSelection.bind(this);
@@ -216,28 +214,22 @@ class RecommendedProductsComponent extends Component {
                 <Header>{this.props.header}</Header>
                 <Container>
                     <Grid>
-                        {this.state.selected.map((product, key)=> {
-                            if(product.initial_product) {
-                                return (
-                                    <InitialBlock key={key}>
-                                        <Image isSelected={product.selected} src={product.image} alt={product.title} />
-                                        {key < this.state.selected.length - 1 ? (<Plus />) : null}
-                                    </InitialBlock>
-                                )
-                            }
+                        <InitialBlock>
+                            <Image isSelected={this.props.initial_product.selected} src={this.props.initial_product.image} alt={this.props.initial_product.title} />
+                            <Plus />
+                        </InitialBlock>
+                        {this.state.related.map((product, key)=> {
                             return (
                                 <Block key={key}>
                                     <Image isSelected={product.selected} src={product.image} alt={product.title} />
-                                    {key < this.state.selected.length - 1 ? (<Plus />) : null}
+                                    {key < this.state.related.length - 1 ? (<Plus />) : null}
                                 </Block>
                             )
                         })}
                     </Grid>
                     <Details>
-                        {this.state.selected.map((product, key)=> {
-                            if (product.initial_product) {
-                                return <Product isSelected={product.selected} key={key}><Selected>This Item</Selected>{product.name}<Price isSelected={product.selected}>${product.price}</Price></Product>
-                            }
+                        <Product isSelected={this.props.initial_product.selected}><Selected>This Item</Selected>{this.props.initial_product.name}<Price isSelected={this.props.initial_product.selected}>${this.props.initial_product.price}</Price></Product>
+                        {this.state.related.map((product, key)=> {
                             return <Product isSelected={product.selected} key={key}><Checkbox type="checkbox" onChange={(e) => this.getSelection(product.sku, e)} defaultChecked />{product.name}<Price isSelected={product.selected}>${product.price}</Price></Product>;
                         })}
                         <Wrapper>
@@ -250,14 +242,14 @@ class RecommendedProductsComponent extends Component {
     }
 
     getTotal() {
-        return this.state.selected.map(a => (a.selected) ? a.price : 0).reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+        return this.props.initial_product.price + this.state.related.map(a => (a.selected) ? a.price : 0).reduce((a, b) => a + b, 0)
     }
 
     getSelection(key, e) {
         // handle checkbox change event
         if(e.target.checked) {
             this.setState({
-                selected: this.state.selected.map((item) => {
+                selected: this.state.related.map((item) => {
                     return {
                         "name": item.name,
                         "image": item.image,
@@ -270,7 +262,7 @@ class RecommendedProductsComponent extends Component {
             })
         } else {
             this.setState({
-                selected: this.state.selected.map((item) => {
+                selected: this.state.related.map((item) => {
                     return {
                         "name": item.name,
                         "image": item.image,
@@ -286,7 +278,7 @@ class RecommendedProductsComponent extends Component {
 
     addToCart(e, addToCartCallback) {
         // handle submit
-        const itemsToAdd = this.state.selected.filter(item => !item.initial_product && item.selected);
+        const itemsToAdd = this.state.related.filter(item => !item.initial_product && item.selected);
         addToCartCallback(itemsToAdd);
     }
 }
